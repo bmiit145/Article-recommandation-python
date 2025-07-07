@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+qdrant
+sentence-transformers
+python-dotenv
+pydantic
+numpy
