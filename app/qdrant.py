@@ -2,10 +2,11 @@ import uuid
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import PointIdsList, PointStruct, VectorParams, Distance, Filter, MatchValue, FieldCondition
-from app.config import QDRANT_HOST, COLLECTION_NAME
+from app.config import QDRANT_HOST, COLLECTION_NAME, QDRANT_API_KEY
 from uuid import UUID
 
-client = QdrantClient(url=QDRANT_HOST)
+client = QdrantClient(url=QDRANT_HOST,
+                      api_key=QDRANT_API_KEY)
 
 
 def create_collection_if_not_exists():
