@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.git
+.venv
+*.py[cod]
+*.env
+*.ipynb
+node_modules
