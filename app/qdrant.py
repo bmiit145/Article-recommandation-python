@@ -1,6 +1,7 @@
 import uuid
 
 from qdrant_client import QdrantClient
+from qdrant_client.http.models import PayloadSchemaType
 from qdrant_client.models import PointIdsList, PointStruct, VectorParams, Distance, Filter, MatchValue, FieldCondition
 from app.config import QDRANT_HOST, COLLECTION_NAME, QDRANT_API_KEY
 from uuid import UUID
@@ -15,11 +16,24 @@ def create_collection_if_not_exists():
         client.create_collection(
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(
-                size=384,  # embedding vector size
+                size=384,
                 distance=Distance.COSINE
-            )
+            ),
+            payload_schema={
+                "article_id": PayloadSchemaType.KEYWORD
+            }
         )
-
+    else:
+        # 🔁 Ensure payload index exists (safe to call even if exists)
+        try:
+            client.create_payload_index(
+                collection_name=COLLECTION_NAME,
+                field_name="article_id",
+                field_schema=PayloadSchemaType.KEYWORD
+            )
+        except Exception as e:
+            if "already exists" not in str(e):
+                raise
 
 create_collection_if_not_exists()
 
